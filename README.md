@@ -1,2 +1,2 @@
-# SEM-VoLL
-Model version and plotting scripts used for the value of lost load paper.
+# Cost of Unmet Demand
+Macro Energy Model (MEM, previously "Simple Energy Model") version and plotting scripts used for the cost of unmet demand paper.
