@@ -1,0 +1,140 @@
+"""
+file name: stack_capacity_mix.py
+    plot capacity mix as function of value of lost load 
+    (= cost of unmet demand)
+"""
+
+#%% import modules
+
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.ticker import FormatStrFormatter
+
+#%% global plot settings
+
+# set rcParams back to default values
+    # reference: https://stackoverflow.com/questions/26413185/how-to-recover-matplotlib-defaults-after-setting-stylesheet
+mpl.rcParams.update(mpl.rcParamsDefault)
+
+# ticks
+mpl.rcParams['xtick.direction'] = 'in'
+mpl.rcParams['ytick.direction'] = 'in'
+mpl.rcParams['xtick.major.size'] = 2.5
+mpl.rcParams['ytick.major.size'] = 2.5
+
+# font and fontsize
+    # reference: https://ask.sagemath.org/question/8882/change-legend-font-when-plotting/
+    # reference on font family: https://matplotlib.org/examples/api/font_family_rc.html
+plt.rc('font',**{'family':'sans-serif','sans-serif':['Calibri'],'size':9})
+
+#%% color palette
+# colors from: http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=4
+
+# colorblind-friendly
+color_wind    = '#1b7837'   # green, dark
+color_solar   = '#a6dba0'   # green, light
+color_natgas  = '#4393c3'   # blue, medium
+color_storage = '#c2a5cf'   # purple, light
+
+# capacity shares
+colors = [color_wind, color_solar, color_natgas, color_storage]    
+
+#%% specify file path and file name
+
+file_path = '../Output_Data/'
+
+file_name = ['1-unmet_demand-cp0/1-unmet_demand-cp0_20190226_221554',
+             '2-unmet_demand-cp200/2-unmet_demand-cp200_20190227_020128',
+             '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20190227_101927',
+             '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20190227_000042',
+             '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20190227_121954',
+             '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20190226_223652']
+
+plot_title = ['wind + solar + storage + natural gas\n(base case)',
+              'wind + solar + storage + natural gas\n@ \$200/t' + '$\mathregular{CO_2}$',
+              'wind + solar + storage',
+              'wind + storage',
+              'solar + storage',
+              'wind + solar']
+
+# case names for saving plots
+savefig_name = ['case1', 'case2', 'case3', 'case4', 'case5', 'case6']
+
+directory = file_path + 'plots'
+if not os.path.exists(directory):
+    os.mkdir(directory)
+
+#%% read and plot results
+
+for i in range(len(file_name)):
+
+    # -------------------------------------------------------------------------
+    # read data
+    
+    # read data as dataframes
+        # reference: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
+    df = pd.read_csv(file_path + file_name[i] + '.csv')
+    
+    # assign data to variable names
+    cost_unmet_demand = df['var cost unmet demand ($/kWh)'].values
+    capacity_natgas = df['capacity natgas (kW)'].values
+    capacity_solar = df['capacity solar (kW)'].values
+    capacity_wind = df['capacity wind (kW)'].values
+    capacity_storage = df['capacity storage (kWh)'].values
+
+    # -------------------------------------------------------------------------
+    # calculations
+
+    # storage charging time used for this set of simulations
+    charging_time = 6 
+    
+    # total capacity
+    tot_capacity = capacity_natgas + capacity_solar + capacity_wind + \
+                    capacity_storage/charging_time
+
+    # -------------------------------------------------------------------------
+    # plot results
+
+    # stack up capacity
+    capacity_mix = np.vstack([capacity_wind,
+                              capacity_solar, 
+                              capacity_natgas,
+                              capacity_storage/charging_time])
+
+    # plot
+    fig, ax = plt.subplots(1,1, figsize=(3,2.2), sharex=True, sharey=True)        
+    ax.stackplot(cost_unmet_demand, capacity_mix, colors=colors)
+
+    # -------------------------------------------------------------------------
+    # plot settings
+    
+    # axes
+    ax.set_xlim(min(cost_unmet_demand), max(cost_unmet_demand))
+    ax.set_xscale('log')
+    ax.xaxis.set_major_formatter(FormatStrFormatter('%.6g'))
+    ax.set_ylim(0,max(tot_capacity))
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.6g'))
+    # reference for disabling minor ticks: 
+        # https://stackoverflow.com/questions/10781077/how-to-disable-the-minor-ticks-of-log-plot-in-matplotlib
+    plt.minorticks_off()
+    
+    # title, axis labels, and legend
+    ax.set_title(plot_title[i], fontsize=10, fontweight='bold')
+    xlabel = 'Value of lost load [$/kWh]'
+    ylabel = 'Capacity\n(1 = average demand)'
+    legend = ['Wind', 'Solar', 'Natural gas', 'Storage']
+    ax.set_xlabel(xlabel, fontsize=10)
+    ax.set_ylabel(ylabel, fontsize=10)
+    ax.legend(legend, frameon=False, ncol=2, loc='upper center', 
+          bbox_to_anchor=(0.5,-0.25), fontsize=9)
+
+    # -------------------------------------------------------------------------
+    # save plot
+ 
+#    fig.savefig(file_path + 'plots/' + 's1-capacity mix_' + savefig_name[i] + '.svg', 
+#                dpi=600, bbox_inches='tight', pad_inches=0.2)
+
+    plt.show()
