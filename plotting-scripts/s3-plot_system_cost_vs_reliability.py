@@ -34,31 +34,64 @@ plt.rc('font',**{'family':'sans-serif','sans-serif':['Calibri'],'size':9})
 
 file_path = '../Output_Data/'
 
-file_name1 = '1-unmet_demand-cp0/1-unmet_demand-cp0_20190226_221554'
-legend1 = 'wind + solar + storage + natural gas (base case)'
+# variable demand
+#file_name1 = '1-unmet_demand-cp0/1-unmet_demand-cp0_20200218_124557'
+#legend1 = 'wind + solar + storage + natural gas'
+#
+#file_name2 = '2-unmet_demand-cp200/2-unmet_demand-cp200_20200216_134342'
+#legend2 = 'wind + solar + storage + natural gas @ \$200/t' + '$\mathregular{CO_2}$'
+#
+#file_name3 = '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20200216_144503'
+#legend3 = 'wind + solar + storage'
+#
+#file_name4 = '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20200216_154754'
+#legend4 = 'wind + storage'
+#
+#file_name5 = '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20200216_164608'
+#legend5 = 'solar + storage'
+#
+#file_name6 = '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20200216_165156'
+#legend6 = 'wind + solar'
+#
+#file_name7 = '7-unmet_demand-solar-only/7-unmet_demand-solar-only_20200216_171908'
+#legend7 = 'solar only'
+#
+#file_name8 = '8-unmet_demand-wind-only/8-unmet_demand-wind-only_20200216_172442'
+#legend8 = 'wind only'
 
-file_name2 = '2-unmet_demand-cp200/2-unmet_demand-cp200_20190227_020128'
+# constant demand
+file_name1 = '1-unmet_demand_constant-cp0/1-unmet_demand-cp0_20200218_114235'
+legend1 = 'wind + solar + storage + natural gas'
+
+file_name2 = '2-unmet_demand_constant-cp200/2-unmet_demand-cp200_20200218_141812'
 legend2 = 'wind + solar + storage + natural gas @ \$200/t' + '$\mathregular{CO_2}$'
 
-file_name3 = '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20190227_101927'
+file_name3 = '3-unmet_demand_constant-wind-solar-storage/3-unmet_demand_constant-wind-solar-storage_20200218_153457'
 legend3 = 'wind + solar + storage'
 
-file_name4 = '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20190227_000042'
+file_name4 = '4-unmet_demand_constant-wind-storage/4-unmet_demand_constant-wind-storage_20200218_163438'
 legend4 = 'wind + storage'
 
-file_name5 = '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20190227_121954'
+file_name5 = '5-unmet_demand_constant-solar-storage/5-unmet_demand_constant-solar-storage_20200218_175529'
 legend5 = 'solar + storage'
 
-file_name6 = '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20190226_223652'
+file_name6 = '6-unmet_demand_constant-wind-solar/6-unmet_demand_constant-wind-solar_20200218_182400'
 legend6 = 'wind + solar'
 
-file_name = [file_name1, file_name2, file_name3, 
-             file_name4, file_name5, file_name6]
-legend = [legend1, legend2, legend3, legend4, legend5, legend6]
+file_name7 = '7-unmet_demand_constant-solar-only/7-unmet_demand_constant-solar-only_20200218_183605'
+legend7 = 'solar only'
 
-directory = file_path + 'plots'
-if not os.path.exists(directory):
-    os.mkdir(directory)
+file_name8 = '8-unmet_demand_constant-wind-only/8-unmet_demand_constant-wind-only_20200218_184040'
+legend8 = 'wind only'
+
+file_name = [file_name1, file_name2, file_name3, file_name4, 
+             file_name5, file_name6, file_name7, file_name8]
+legend = [legend1, legend2, legend3, legend4, 
+          legend5, legend6, legend7, legend8]
+
+directory = '../figures'
+#if not os.path.exists(directory):
+#    os.mkdir(directory)
 
 #%% read results
 
@@ -119,8 +152,10 @@ xtick_labels = []
 for x in xtick_pos:
     xtick_labels.append('%.6g' % (100 - x))    # reliability
 ax.set_xticklabels(xtick_labels)
-ax.set_ylim(0,np.max(system_cost))
-ax.set_yticks(np.arange(0,np.max(system_cost)+0.05,0.05))
+ax.set_ylim(0,0.40)
+ax.set_yticks(np.arange(0,0.45,0.05))
+#ax.set_ylim(0,np.max(system_cost))
+#ax.set_yticks(np.arange(0,np.max(system_cost)+0.05,0.05))
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 ax.minorticks_off()
 

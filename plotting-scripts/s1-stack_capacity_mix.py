@@ -1,7 +1,6 @@
 """
 file name: stack_capacity_mix.py
-    plot capacity mix as function of value of lost load 
-    (= cost of unmet demand)
+    plot capacity mix as function of value of cost of unmet demand
 """
 
 #%% import modules
@@ -34,10 +33,11 @@ plt.rc('font',**{'family':'sans-serif','sans-serif':['Calibri'],'size':9})
 # colors from: http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=4
 
 # colorblind-friendly
-color_wind    = '#1b7837'   # green, dark
-color_solar   = '#a6dba0'   # green, light
-color_natgas  = '#4393c3'   # blue, medium
-color_storage = '#c2a5cf'   # purple, light
+color_wind    = '#beaed4'#1b7837'   # green, dark
+color_solar   = '#fdc086' #'#a6dba0'   # green, light
+color_natgas  = '#386cb0' #'#4393c3'   # blue, medium
+color_storage = '#7fc97f' #'#c2a5cf'   # purple, light
+color_unmet   = '#e0e0e0'   # grey, light
 
 # capacity shares
 colors = [color_wind, color_solar, color_natgas, color_storage]    
@@ -46,26 +46,42 @@ colors = [color_wind, color_solar, color_natgas, color_storage]
 
 file_path = '../Output_Data/'
 
-file_name = ['1-unmet_demand-cp0/1-unmet_demand-cp0_20190226_221554',
-             '2-unmet_demand-cp200/2-unmet_demand-cp200_20190227_020128',
-             '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20190227_101927',
-             '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20190227_000042',
-             '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20190227_121954',
-             '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20190226_223652']
+# variable demand
+#file_name = ['1-unmet_demand-cp0/1-unmet_demand-cp0_20200216_110802',
+#             '2-unmet_demand-cp200/2-unmet_demand-cp200_20200216_134342',
+#             '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20200216_144503',
+#             '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20200216_154754',
+#             '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20200216_164608',
+#             '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20200216_165156',
+#             '7-unmet_demand-solar-only/7-unmet_demand-solar-only_20200216_171908',
+#             '8-unmet_demand-wind-only/8-unmet_demand-wind-only_20200216_172442']
 
-plot_title = ['wind + solar + storage + natural gas\n(base case)',
+# constant demand
+file_name = ['1-unmet_demand_constant-cp0/1-unmet_demand-cp0_20200218_114235',
+             '2-unmet_demand_constant-cp200/2-unmet_demand-cp200_20200218_141812',
+             '3-unmet_demand_constant-wind-solar-storage/3-unmet_demand_constant-wind-solar-storage_20200218_153457',
+             '4-unmet_demand_constant-wind-storage/4-unmet_demand_constant-wind-storage_20200218_163438',
+             '5-unmet_demand_constant-solar-storage/5-unmet_demand_constant-solar-storage_20200218_175529',
+             '6-unmet_demand_constant-wind-solar/6-unmet_demand_constant-wind-solar_20200218_182400',
+             '7-unmet_demand_constant-solar-only/7-unmet_demand_constant-solar-only_20200218_183605',
+             '8-unmet_demand_constant-wind-only/8-unmet_demand_constant-wind-only_20200218_184040']
+
+plot_title = ['wind + solar + storage + natural gas',
               'wind + solar + storage + natural gas\n@ \$200/t' + '$\mathregular{CO_2}$',
               'wind + solar + storage',
               'wind + storage',
               'solar + storage',
-              'wind + solar']
+              'wind + solar',
+              'solar only',
+              'wind only']
 
 # case names for saving plots
-savefig_name = ['case1', 'case2', 'case3', 'case4', 'case5', 'case6']
+savefig_name = ['case1', 'case2', 'case3', 'case4', 
+                'case5', 'case6','case7','case8']
 
-directory = file_path + 'plots'
-if not os.path.exists(directory):
-    os.mkdir(directory)
+directory = '../figures'
+#if not os.path.exists(directory):
+#    os.mkdir(directory)
 
 #%% read and plot results
 
@@ -123,7 +139,7 @@ for i in range(len(file_name)):
     
     # title, axis labels, and legend
     ax.set_title(plot_title[i], fontsize=10, fontweight='bold')
-    xlabel = 'Value of lost load [$/kWh]'
+    xlabel = 'Cost of Unmet Demand [$/kWh]'
     ylabel = 'Capacity\n(1 = average demand)'
     legend = ['Wind', 'Solar', 'Natural gas', 'Storage']
     ax.set_xlabel(xlabel, fontsize=10)

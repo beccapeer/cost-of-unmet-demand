@@ -28,16 +28,16 @@ mpl.rcParams['ytick.major.size'] = 2.5
 # font and fontsize
     # reference: https://ask.sagemath.org/question/8882/change-legend-font-when-plotting/
     # reference on font family: https://matplotlib.org/examples/api/font_family_rc.html
-plt.rc('font',**{'family':'sans-serif','sans-serif':['Calibri'],'size':9})
+plt.rc('font',**{'family':'sans-serif','sans-serif':['Arial'],'size':9})
 
 #%% color palette
 # colors from: http://colorbrewer2.org/#type=diverging&scheme=BrBG&n=4
 
 # colorblind-friendly
-color_wind    = '#1b7837'   # green, dark
-color_solar   = '#a6dba0'   # green, light
-color_natgas  = '#4393c3'   # blue, medium
-color_storage = '#c2a5cf'   # purple, light
+color_wind    = '#beaed4'#1b7837'   # green, dark
+color_solar   = '#fdc086' #'#a6dba0'   # green, light
+color_natgas  = '#386cb0' #'#4393c3'   # blue, medium
+color_storage = '#7fc97f' #'#c2a5cf'   # purple, light
 color_unmet   = '#e0e0e0'   # grey, light
 
 # dispatch shares
@@ -53,6 +53,15 @@ file_path = '../Output_Data/'
 
 # user input: choose main filename
 file_name1 = '2-unmet_demand-cp200/2-unmet_demand-cp200_'
+#'2-unmet_demand-cp200/2-unmet_demand-cp200_'
+#'1-unmet_demand-cp0/1-unmet_demand-cp0_'
+#'3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_'
+#'4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_'
+#'5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_'
+#'6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_'
+#'7-unmet_demand-solar-only/7-unmet_demand-solar-only_'
+#'8-unmet_demand-wind-only/8-unmet_demand-wind-only_'
+
 savefig_name = 'case2'
 
 directory = file_path + 'figures'
@@ -157,19 +166,53 @@ for exponent in exponents:
  
     # title, axis labels, legend
         # reference on multiple legends: https://jakevdp.github.io/PythonDataScienceHandbook/04.06-customizing-legends.html
-    title = 'Value of lost load = $%.6g' % 10**exponent + '/kWh'
+    title = 'cost of unmet demand = $%.6g' % 10**exponent + '/kWh'
     xlabel = 'Day of year'
     ylabel = 'Demand or generation\n(1 = average demand)'
     legend_a = ['Demand']
     legend_b = ['Wind', 'Solar', 'Natural gas', 'Storage', 'Unmet demand']
-    ax.set_title(title, fontsize=10)
+#    ax.set_title(title, fontsize=10)
     ax.set_xlabel(xlabel, fontsize=10)
     ax.set_ylabel(ylabel, fontsize=10)
-    ax.legend(labels=legend_a, fancybox=False, frameon=False, 
-              loc='upper left', bbox_to_anchor=(0,-0.65), fontsize=9)
-    leg = Legend(ax, p, labels=legend_b, fancybox=False, frameon=False, 
-                 loc='upper left', bbox_to_anchor=(0,-0.35), ncol=3, fontsize=9)
-    ax.add_artist(leg)
+    ax.text(190,1.7, 'natural gas',color=colors[2],weight='bold', 
+            size=7, style='italic')
+    ax.annotate("",xy=(215, 0.9), xycoords='data',
+            xytext=(215, 1.65), textcoords='data',
+            arrowprops=dict(arrowstyle="-",connectionstyle="arc3",
+            lw=0.5, color=colors[2]))
+    ax.text(30,2, 'curtailed wind',color=colors[0],weight='bold', 
+            size=7, style='italic')
+    ax.annotate("",xy=(60, 1.4), xycoords='data',
+            xytext=(80, 1.95), textcoords='data',
+            arrowprops=dict(arrowstyle="-",connectionstyle="arc3",
+            lw=0.5, color=colors[0]))
+    ax.text(130,1.8, 'solar',color=colors[1],weight='bold', 
+            size=7, style='italic')
+    ax.annotate("",xy=(145, 0.6), xycoords='data',
+            xytext=(145, 1.75), textcoords='data',
+            arrowprops=dict(arrowstyle="-",connectionstyle="arc3",
+            lw=0.5, color=colors[1]))
+    ax.text(290,1.6, 'demand',color='k',weight='bold', 
+            size=7, style='italic')
+    ax.annotate("",xy=(260, 1.05), xycoords='data',
+            xytext=(290, 1.55), textcoords='data',
+            arrowprops=dict(arrowstyle="-",connectionstyle="arc3",
+            lw=0.5, color='k'))
+    ax.text(310,0.1, 'wind',color='k',weight='bold', 
+            size=7, style='italic')
+    ax.annotate(title, xy=(0.28, 0.95), xycoords='axes fraction', 
+                                 horizontalalignment='left', verticalalignment='top',
+                                 fontsize=8, style='italic')
+    ax.annotate('B', xy=(-0.15, 1.15), xycoords='axes fraction', 
+                                 horizontalalignment='left', verticalalignment='top',
+                                 weight='bold', fontsize='large')
+    for which in ['right', 'top']:
+        ax.spines[which].set_visible(False)
+#    ax.legend(labels=legend_a, fancybox=False, frameon=False, 
+#              loc='upper left', bbox_to_anchor=(0,-0.65), fontsize=9)
+#    leg = Legend(ax, p, labels=legend_b, fancybox=False, frameon=False, 
+#                 loc='upper left', bbox_to_anchor=(0,-0.35), ncol=3, fontsize=9)
+#    ax.add_artist(leg)
     # adjust spacing within and around subplots
         # references: 
             # https://stackoverflow.com/questions/37558329/matplotlib-set-axis-tight-only-to-x-or-y-axis
@@ -179,8 +222,8 @@ for exponent in exponents:
     # -------------------------------------------------------------------------
     # save plot
     
-#    fig.savefig(file_path + 'plots/' 
-#                + '1b-daily dispatch_' + savefig_name + file_name2 + '.svg', 
-#                dpi=600, bbox_inches='tight', pad_inches=0.2)
+    fig.savefig('../figures/' 
+                + '1b-daily dispatch_' + savefig_name + file_name2 + '.svg', 
+                dpi=600, bbox_inches='tight', pad_inches=0.2)
     
     plt.show()

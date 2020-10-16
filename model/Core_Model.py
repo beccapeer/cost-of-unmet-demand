@@ -185,7 +185,7 @@ def core_model (global_dic, case_dic):
                 dispatch_natgas >= 0,
                 dispatch_natgas <= capacity_natgas
                 ]
-        fcn2min += capacity_natgas * fixed_cost_natgas + cvx.sum_entries(dispatch_natgas * var_cost_natgas)/num_time_periods
+        fcn2min += capacity_natgas * fixed_cost_natgas + cvx.sum(dispatch_natgas * var_cost_natgas)/num_time_periods
     else:
         capacity_natgas = 0
         dispatch_natgas = np.zeros(num_time_periods)
@@ -205,7 +205,7 @@ def core_model (global_dic, case_dic):
                 dispatch_natgas_ccs >= 0,
                 dispatch_natgas_ccs <= capacity_natgas_ccs
                 ]
-        fcn2min += capacity_natgas_ccs * fixed_cost_natgas_ccs + cvx.sum_entries(dispatch_natgas_ccs * var_cost_natgas_ccs)/num_time_periods
+        fcn2min += capacity_natgas_ccs * fixed_cost_natgas_ccs + cvx.sum(dispatch_natgas_ccs * var_cost_natgas_ccs)/num_time_periods
     else:
         capacity_natgas_ccs = 0
         dispatch_natgas_ccs = np.zeros(num_time_periods)
@@ -224,7 +224,7 @@ def core_model (global_dic, case_dic):
                 dispatch_solar >= 0, 
                 dispatch_solar <= capacity_solar * solar_series 
                 ]
-        fcn2min += capacity_solar * fixed_cost_solar + cvx.sum_entries(dispatch_solar * var_cost_solar)/num_time_periods
+        fcn2min += capacity_solar * fixed_cost_solar + cvx.sum(dispatch_solar * var_cost_solar)/num_time_periods
     else:
         capacity_solar = 0
         dispatch_solar = np.zeros(num_time_periods)
@@ -243,7 +243,7 @@ def core_model (global_dic, case_dic):
                 dispatch_wind >= 0, 
                 dispatch_wind <= capacity_wind * wind_series 
                 ]
-        fcn2min += capacity_wind * fixed_cost_wind + cvx.sum_entries(dispatch_wind * var_cost_wind)/num_time_periods
+        fcn2min += capacity_wind * fixed_cost_wind + cvx.sum(dispatch_wind * var_cost_wind)/num_time_periods
     else:
         capacity_wind = 0
         dispatch_wind = np.zeros(num_time_periods)
@@ -263,7 +263,7 @@ def core_model (global_dic, case_dic):
                 dispatch_nuclear >= 0, 
                 dispatch_nuclear <= capacity_nuclear 
                 ]
-        fcn2min += capacity_nuclear * fixed_cost_nuclear + cvx.sum_entries(dispatch_nuclear * var_cost_nuclear)/num_time_periods
+        fcn2min += capacity_nuclear * fixed_cost_nuclear + cvx.sum(dispatch_nuclear * var_cost_nuclear)/num_time_periods
     else:
         capacity_nuclear = 0
         dispatch_nuclear = np.zeros(num_time_periods)
@@ -292,8 +292,8 @@ def core_model (global_dic, case_dic):
                 ]
 
         fcn2min += capacity_storage * fixed_cost_storage +  \
-            cvx.sum_entries(dispatch_to_storage * var_cost_to_storage)/num_time_periods + \
-            cvx.sum_entries(dispatch_from_storage * var_cost_from_storage)/num_time_periods 
+            cvx.sum(dispatch_to_storage * var_cost_to_storage)/num_time_periods + \
+            cvx.sum(dispatch_from_storage * var_cost_from_storage)/num_time_periods 
  
         for i in range(num_time_periods):
 
@@ -357,8 +357,8 @@ def core_model (global_dic, case_dic):
 
         fcn2min += capacity_pgp_storage * fixed_cost_pgp_storage + \
             capacity_to_pgp_storage * fixed_cost_to_pgp_storage + capacity_from_pgp_storage * fixed_cost_from_pgp_storage + \
-            cvx.sum_entries(dispatch_to_pgp_storage * var_cost_to_pgp_storage)/num_time_periods + \
-            cvx.sum_entries(dispatch_from_pgp_storage * var_cost_from_pgp_storage)/num_time_periods 
+            cvx.sum(dispatch_to_pgp_storage * var_cost_to_pgp_storage)/num_time_periods + \
+            cvx.sum(dispatch_from_pgp_storage * var_cost_from_pgp_storage)/num_time_periods 
  
         for i in range(num_time_periods):
 
@@ -382,7 +382,7 @@ def core_model (global_dic, case_dic):
         constraints += [
                 dispatch_unmet_demand >= 0
                 ]
-        fcn2min += cvx.sum_entries(dispatch_unmet_demand * var_cost_unmet_demand)/num_time_periods
+        fcn2min += cvx.sum(dispatch_unmet_demand * var_cost_unmet_demand)/num_time_periods
     else:
         dispatch_unmet_demand = np.zeros(num_time_periods)
         

@@ -23,7 +23,7 @@ import sys
  
 # user input: input file
 if len(sys.argv) == 1:
-    case_input_path_filename = './6-input_unmet_demand-wind-solar.csv'
+    case_input_path_filename = './8-input_unmet_demand_constant-wind-only.csv'
 else:
     case_input_path_filename = sys.argv[1]
 
