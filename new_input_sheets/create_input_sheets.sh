@@ -8,7 +8,7 @@ BASE_CASE=input_unmet_demand_base_case.csv
 # - FIXED_COST_NATGAS,
 # - FIXED_COST_STORAGE,
 # Setting 1 --> -1 will turn off that tech
-VARS="1,1,1,1"
+VARS="1,1,1,1,,"
 
 
 # Changing the DEMAND_FILE will change the demand file
@@ -43,53 +43,53 @@ sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${CO2_ZERO}/${CO2_200}/g; s/${DEMAND_FILE
 
 
 CASE="3-input_unmet_demand-wind-solar-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="3-input_unmet_demand-constant-wind-solar-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
 
 
 
 CASE="4-input_unmet_demand-wind-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="4-input_unmet_demand-constant-wind-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
 
 
 
 CASE="5-input_unmet_demand-solar-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="5-input_unmet_demand-constant-solar-storage"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
 
 
 
 CASE="6-input_unmet_demand-wind-solar"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,-1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,-1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="6-input_unmet_demand-constant-wind-solar"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,-1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,1,-1,-1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
 
 
 
 CASE="7-input_unmet_demand-solar"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,-1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,-1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="7-input_unmet_demand-constant-solar"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,-1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/1,-1,-1,-1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
 
 
 
 CASE="8-input_unmet_demand-wind"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1,,/g" $BASE_CASE > $CASE.csv
 
 CASE="8-input_unmet_demand-constant-wind"
-sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
+sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1,,/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g" $BASE_CASE > $CASE.csv
 
