@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.ticker import FormatStrFormatter
+from helpers import get_file_name
 
 ## GLOBAL PLOT SETTINGS
 ## set rcParams back to default values
@@ -34,54 +35,61 @@ plt.rc('font',**{'family':'sans-serif','sans-serif':['Arial'],'size':8})
 ## specify path for output files
 file_path = '../Output_Data/'
 
+## Use this NEW_FILES flag to either run the old files or updated ones based on "new_input_sheets/create_input_sheets.sh"
+NEW_FILES = True
+NEW_FILES = False
+app = 'new_' if NEW_FILES else ''
+DATE = '2020102' if NEW_FILES else ''
+
+
 ## variable demand scenarios
-file_name1 = '1-unmet_demand-cp0/1-unmet_demand-cp0_20200218_124557'
+file_name1 = f'{app}1-unmet_demand-cp0/{app}1-unmet_demand-cp0_20200218_124557'
 legend1 = 'wind + solar + storage + natural gas'
 
-file_name2 = '2-unmet_demand-cp200/2-unmet_demand-cp200_20200216_134342'
+file_name2 = f'{app}2-unmet_demand-cp200/{app}2-unmet_demand-cp200_20200216_134342'
 legend2 = 'wind + solar + storage + natural gas @ \$200/t' + '$\mathregular{CO_2}$'
 
-file_name3 = '3-unmet_demand-wind-solar-storage/3-unmet_demand-wind-solar-storage_20200216_144503'
+file_name3 = f'{app}3-unmet_demand-wind-solar-storage/{app}3-unmet_demand-wind-solar-storage_20200216_144503'
 legend3 = 'wind + solar + storage'
 
-file_name4 = '4-unmet_demand-wind-storage/4-unmet_demand-wind-storage_20200216_154754'
+file_name4 = f'{app}4-unmet_demand-wind-storage/{app}4-unmet_demand-wind-storage_20200216_154754'
 legend4 = 'wind + storage'
 
-file_name5 = '5-unmet_demand-solar-storage/5-unmet_demand-solar-storage_20200216_164608'
+file_name5 = f'{app}5-unmet_demand-solar-storage/{app}5-unmet_demand-solar-storage_20200216_164608'
 legend5 = 'solar + storage'
 
-file_name6 = '6-unmet_demand-wind-solar/6-unmet_demand-wind-solar_20200216_165156'
+file_name6 = f'{app}6-unmet_demand-wind-solar/{app}6-unmet_demand-wind-solar_20200216_165156'
 legend6 = 'wind + solar'
 
-file_name8 = '7-unmet_demand-solar-only/7-unmet_demand-solar-only_20200216_171908'
+file_name8 = f'{app}7-unmet_demand-solar-only/{app}7-unmet_demand-solar-only_20200216_171908'
 legend8 = 'solar only'
 
-file_name7 = '8-unmet_demand-wind-only/8-unmet_demand-wind-only_20200216_172442'
+file_name7 = f'{app}8-unmet_demand-wind-only/{app}8-unmet_demand-wind-only_20200216_172442'
 legend7 = 'wind only'
 
 ## constant demand scenarios
-file_namec1 = '1-unmet_demand_constant-cp0/1-unmet_demand-cp0_20200218_114235'
+file_namec1 = f'{app}1-unmet_demand_constant-cp0/{app}1-unmet_demand-cp0_20200218_114235'
 legend1 = 'wind + solar + storage + natural gas'
 
-file_namec2 = '2-unmet_demand_constant-cp200/2-unmet_demand-cp200_20200218_141812'
+file_namec2 = f'{app}2-unmet_demand_constant-cp200/{app}2-unmet_demand-cp200_20200218_141812'
 legend2 = 'wind + solar + storage + natural gas @ \$200/t' + '$\mathregular{CO_2}$'
 
-file_namec3 = '3-unmet_demand_constant-wind-solar-storage/3-unmet_demand_constant-wind-solar-storage_20200218_153457'
+file_namec3 = f'{app}3-unmet_demand_constant-wind-solar-storage/{app}3-unmet_demand_constant-wind-solar-storage_20200218_153457'
 legend3 = 'wind + solar + storage'
 
-file_namec4 = '4-unmet_demand_constant-wind-storage/4-unmet_demand_constant-wind-storage_20200218_163438'
+file_namec4 = f'{app}4-unmet_demand_constant-wind-storage/{app}4-unmet_demand_constant-wind-storage_20200218_163438'
 legend4 = 'wind + storage'
 
-file_namec5 = '5-unmet_demand_constant-solar-storage/5-unmet_demand_constant-solar-storage_20200218_175529'
+file_namec5 = f'{app}5-unmet_demand_constant-solar-storage/{app}5-unmet_demand_constant-solar-storage_20200218_175529'
 legend5 = 'solar + storage'
 
-file_namec6 = '6-unmet_demand_constant-wind-solar/6-unmet_demand_constant-wind-solar_20200218_182400'
+file_namec6 = f'{app}6-unmet_demand_constant-wind-solar/{app}6-unmet_demand_constant-wind-solar_20200218_182400'
 legend6 = 'wind + solar'
 
-file_namec8 = '7-unmet_demand_constant-solar-only/7-unmet_demand_constant-solar-only_20200218_183605'
+file_namec8 = f'{app}7-unmet_demand_constant-solar-only/{app}7-unmet_demand_constant-solar-only_20200218_183605'
 legend8 = 'solar only'
 
-file_namec7 = '8-unmet_demand_constant-wind-only/8-unmet_demand_constant-wind-only_20200218_184040'
+file_namec7 = f'{app}8-unmet_demand_constant-wind-only/{app}8-unmet_demand_constant-wind-only_20200218_184040'
 legend7 = 'wind only'
 
 file_name = [file_name1, file_name2, file_name3, file_name4, 
@@ -92,7 +100,7 @@ legend = [legend1, legend2, legend3, legend4,
           legend5, legend6, legend7, legend8]
 
 ## figure directory
-directory = '../figures'
+directory = '../figures2'
 
 ## read in results    
 nfiles = len(file_name)
@@ -108,13 +116,16 @@ demand_c = []
 unmet_demand_c = []
 
 for i in range(nfiles):
-    df = pd.read_csv(file_path + file_name[i] + '.csv')
+
+    f_name = get_file_name(file_path + file_name[i], DATE, NEW_FILES)
+    df = pd.read_csv(f_name)
     cost_unmet_demand.append(df['var cost unmet demand ($/kWh)'].values)
     system_cost.append(df['system cost ($/kW/h)'].values)
     demand.append(df['mean demand (kW)'].values)
     unmet_demand.append(df['dispatch unmet demand (kW)'].values)
     
-    df_c = pd.read_csv(file_path + file_namec[i] + '.csv')
+    f_namec = get_file_name(file_path + file_namec[i], DATE, NEW_FILES)
+    df_c = pd.read_csv(f_namec)
     cost_unmet_demand_c.append(df_c['var cost unmet demand ($/kWh)'].values)
     system_cost_c.append(df_c['system cost ($/kW/h)'].values)
     demand_c.append(df_c['mean demand (kW)'].values)
@@ -363,7 +374,8 @@ ax[1].semilogx(cost_unmet_demand[0], elec_cost[0],
 x = np.array(unmet_demand[0])
 idx = np.where(x < 1)[0]
 # indices up to the point where reliability = 0
-idx_new = np.append(idx,np.max(idx)+1)  
+adder = 0 if NEW_FILES else 1
+idx_new = np.append(idx,np.max(idx)+adder)  
 # plot results up to reliability = 0 for case 1
 ax[2].semilogx(np.array(cost_unmet_demand)[0,idx_new], loss_unmet_demand[0,idx_new], 
             linestyle='--', linewidth=1, color='k')
@@ -377,7 +389,7 @@ for i in range(1,nfiles):
     x = np.array(unmet_demand[i])
     idx = np.where(x < 1)[0]
     # indices up to the point where reliability = 0
-    idx_new = np.append(idx,np.max(idx)+1)
+    idx_new = np.append(idx,np.max(idx)+adder)
     # plot results up to zero reliability
     ax[2].semilogx(np.array(cost_unmet_demand)[i,idx_new], loss_unmet_demand[i,idx_new], 
                 linestyle='--', linewidth=1, color=colors[i-1])
