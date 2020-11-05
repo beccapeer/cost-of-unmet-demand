@@ -1,0 +1,4 @@
+*.csv
+Output_Data/*
+*.DS_Store
+*.ipynb_checkpoints
