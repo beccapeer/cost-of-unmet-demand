@@ -106,8 +106,10 @@ CO2_200="CO2_PRICE,200"
 #done
 
 ## Test multiple years of data
-for YEAR in 2016 2017 2018; do
-    CASE="8-input_unmet_demand-wind_${YEAR}"
-    sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1,,/g; s/_YEAR,2018/_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
+STRT_YEAR=2015
+for YEAR in 2016 2017 2018 2019 2020; do
+    CASE="8-input_unmet_demand-wind_${STRT_YEAR}-${YEAR}"
+    sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${VARS}/-1,1,-1,-1,,/g; s/START_YEAR,2015/START_YEAR,${STRT_YEAR}/g; s/END_YEAR,2016/END_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
+    STRT_YEAR=${YEAR}
 done
 

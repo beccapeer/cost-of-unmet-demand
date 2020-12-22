@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 from glob import glob
 
-years = [2016, 2017, 2018]
+years = [2016, 2017, 2018, 2019, 2020]
 
 def get_output_files(f_base):
 
@@ -47,9 +47,12 @@ def merge_files(f_names):
 
 f_names = []
 base = '../Output_Data/8-input_unmet_demand-wind_'
+start_year = 2015
 for year in years:
 
-    f_try = base+str(year)+'/8-input_unmet_demand-wind_'+str(year)+'*2020'
+    yr_string = str(start_year)+'-'+str(year)
+    f_try = base+yr_string+'/8-input_unmet_demand-wind_'+yr_string+'_2020'
     f_names.append( get_output_files(f_try) )
+    start_year = year   # for next iteration
 
 merge_files(f_names)
