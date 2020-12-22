@@ -19,7 +19,7 @@ def get_output_files(f_base):
     assert(len(files) == 1)
     return files[0]
 
-def merge_files(f_names):
+def merge_files(scenario, f_names):
 
     for i, f in enumerate(f_names):
         print(i)
@@ -41,18 +41,29 @@ def merge_files(f_names):
 
     print(master.head())
 
-    master.to_csv('../Output_Data/aggregates/8-input_unmet_demand-wind_2016-2018.csv')
+    master.to_csv(f'../Output_Data/aggregates/{scenario}_2015-2020.csv')
     return master
 
 
-f_names = []
-base = '../Output_Data/8-input_unmet_demand-wind_'
-start_year = 2015
-for year in years:
+scenarios = [
+        #"8-input_unmet_demand-wind",
+        ]
 
-    yr_string = str(start_year)+'-'+str(year)
-    f_try = base+yr_string+'/8-input_unmet_demand-wind_'+yr_string+'_2020'
-    f_names.append( get_output_files(f_try) )
-    start_year = year   # for next iteration
+for storage in ["0.01", "0.1", "1", "10", "100"]:
+    scenarios.append(f"10-input_unmet_demand-solar-storage{storage}")
+    scenarios.append(f"9-input_unmet_demand-wind-solar-storage{storage}")
+        
 
-merge_files(f_names)
+for scenario in scenarios:
+    print(scenario)
+    f_names = []
+    base = f'../Output_Data/{scenario}_'
+    start_year = 2015
+    for year in years:
+    
+        yr_string = str(start_year)+'-'+str(year)
+        f_try = base+yr_string+f'/{scenario}_'+yr_string+'_2020'
+        f_names.append( get_output_files(f_try) )
+        start_year = year   # for next iteration
+    
+    merge_files(scenario, f_names)
