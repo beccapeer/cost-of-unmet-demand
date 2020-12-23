@@ -29,7 +29,7 @@ for YEAR in 2016 2017 2018 2019 2020; do
     CASE="1-input_unmet_demand-cp0_${STRT_YEAR}-${YEAR}"
     sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/START_YEAR,2015/START_YEAR,${STRT_YEAR}/g; s/END_YEAR,2016/END_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
     
-    CASE="1-input_unmet_demand_constant-cp0_${STRT_YEAR}-${YEAR}"
+    CASE="1-input_unmet_demand-constant-cp0_${STRT_YEAR}-${YEAR}"
     sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g; s/START_YEAR,2015/START_YEAR,${STRT_YEAR}/g; s/END_YEAR,2016/END_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
     
     
@@ -38,7 +38,7 @@ for YEAR in 2016 2017 2018 2019 2020; do
     CASE="2-input_unmet_demand-cp200_${STRT_YEAR}-${YEAR}"
     sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${CO2_ZERO}/${CO2_200}/g; s/START_YEAR,2015/START_YEAR,${STRT_YEAR}/g; s/END_YEAR,2016/END_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
     
-    CASE="2-input_unmet_demand_constant-cp200_${STRT_YEAR}-${YEAR}"
+    CASE="2-input_unmet_demand-constant-cp200_${STRT_YEAR}-${YEAR}"
     sed "s/UPDATE_GLOBAL_NAME/${CASE}/g; s/${CO2_ZERO}/${CO2_200}/g; s/${DEMAND_FILE}/${CONSTANT_DEMAND}/g; s/START_YEAR,2015/START_YEAR,${STRT_YEAR}/g; s/END_YEAR,2016/END_YEAR,${YEAR}/g" $BASE_CASE > $CASE.csv
     
     

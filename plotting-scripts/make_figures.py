@@ -37,7 +37,7 @@ file_path = '../Output_Data/'
 
 ## Use this NEW_FILES flag to either run the old files or updated ones based on "new_input_sheets/create_input_sheets.sh"
 NEW_FILES = True
-NEW_FILES = False
+#NEW_FILES = False
 app = 'new_' if NEW_FILES else ''
 DATE = '2020102' if NEW_FILES else ''
 
@@ -92,6 +92,30 @@ legend8 = 'solar only'
 file_namec7 = f'{app}8-unmet_demand_constant-wind-only/{app}8-unmet_demand_constant-wind-only_20200218_184040'
 legend7 = 'wind only'
 
+
+if NEW_FILES:
+    file_path = '../Output_Data/aggregates/'
+
+    ## variable demand scenarios
+    file_name1 = '1-input_unmet_demand-cp0_2015-2020'
+    file_name2 = '2-input_unmet_demand-cp200_2015-2020'
+    file_name3 = '3-input_unmet_demand-wind-solar-storage_2015-2020'
+    file_name4 = '4-input_unmet_demand-wind-storage_2015-2020'
+    file_name5 = '5-input_unmet_demand-solar-storage_2015-2020'
+    file_name6 = '6-input_unmet_demand-wind-solar_2015-2020'
+    file_name8 = '7-input_unmet_demand-solar_2015-2020'
+    file_name7 = '8-input_unmet_demand-wind_2015-2020'
+
+    ## constant demand scenarios
+    file_namec1 = '1-input_unmet_demand-constant-cp0_2015-2020'
+    file_namec2 = '2-input_unmet_demand-constant-cp200_2015-2020'
+    file_namec3 = '3-input_unmet_demand-constant-wind-solar-storage_2015-2020'
+    file_namec4 = '4-input_unmet_demand-constant-wind-storage_2015-2020'
+    file_namec5 = '5-input_unmet_demand-constant-solar-storage_2015-2020'
+    file_namec6 = '6-input_unmet_demand-constant-wind-solar_2015-2020'
+    file_namec8 = '7-input_unmet_demand-constant-solar_2015-2020'
+    file_namec7 = '8-input_unmet_demand-constant-wind_2015-2020'
+
 file_name = [file_name1, file_name2, file_name3, file_name4, 
              file_name5, file_name6, file_name7, file_name8]
 file_namec = [file_namec1, file_namec2, file_namec3, file_namec4, 
@@ -117,14 +141,20 @@ unmet_demand_c = []
 
 for i in range(nfiles):
 
-    f_name = get_file_name(file_path + file_name[i], DATE, NEW_FILES)
+    if NEW_FILES:
+        f_name = file_path+file_name[i]+'.csv'
+    else:
+        f_name = get_file_name(file_path + file_name[i], DATE, NEW_FILES)
     df = pd.read_csv(f_name)
     cost_unmet_demand.append(df['var cost unmet demand ($/kWh)'].values)
     system_cost.append(df['system cost ($/kW/h)'].values)
     demand.append(df['mean demand (kW)'].values)
     unmet_demand.append(df['dispatch unmet demand (kW)'].values)
     
-    f_namec = get_file_name(file_path + file_namec[i], DATE, NEW_FILES)
+    if NEW_FILES:
+        f_namec = file_path+file_namec[i]+'.csv'
+    else:
+        f_namec = get_file_name(file_path + file_namec[i], DATE, NEW_FILES)
     df_c = pd.read_csv(f_namec)
     cost_unmet_demand_c.append(df_c['var cost unmet demand ($/kWh)'].values)
     system_cost_c.append(df_c['system cost ($/kW/h)'].values)

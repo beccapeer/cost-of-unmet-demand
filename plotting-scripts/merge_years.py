@@ -47,9 +47,9 @@ def merge_files(scenario, f_names):
 
 
 scenarios = [
-        "1-input_unmet_demand_constant-cp0",
+        "1-input_unmet_demand-constant-cp0",
         "1-input_unmet_demand-cp0",
-        "2-input_unmet_demand_constant-cp200",
+        "2-input_unmet_demand-constant-cp200",
         "2-input_unmet_demand-cp200",
         "3-input_unmet_demand-constant-wind-solar-storage",
         "3-input_unmet_demand-wind-solar-storage",
